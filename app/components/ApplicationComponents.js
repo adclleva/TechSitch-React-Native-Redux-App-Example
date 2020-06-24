@@ -19,10 +19,6 @@ import {
 } from 'react-native';
 
 import {connect} from 'react-redux';
-import {createStore} from 'redux';
-import reducer from '../store/reducer';
-
-const store = createStore(reducer);
 
 class ApplicationComponents extends Component {
   constructor(props) {
@@ -40,23 +36,43 @@ class ApplicationComponents extends Component {
           <Button title="Age Down" onPress={this.props.onAgeDown} />
         </View>
         <Text>History</Text>
-        {this.props.history.map((item, index) => {
+        {this.props.reducer.history.map((item, index) => {
           return (
             <TouchableOpacity
               key={item.id * index}
               style={styles.historyItem}
-              onPress={() => this.props.onDeleteItem(item.id)}>
+              onPress={() => this.props.reducer.onDeleteItem(item.id)}>
               <View>
                 <Text>{item.value}</Text>
               </View>
             </TouchableOpacity>
           );
         })}
+        <View style={styles.container2}>
+          <View>
+            <Text>A: {this.props.reducerA.a}</Text>
+            <Button
+              title="Update A"
+              onPress={() => this.props.updateA(this.props.reducerB.b)}
+            />
+          </View>
+          <View>
+            <Text>B: {this.props.reducerB.b}</Text>
+            <Button
+              title="Update B"
+              onPress={() => this.props.updateB(this.props.reducerA.a)}
+            />
+          </View>
+        </View>
       </View>
     );
   }
 }
 const styles = StyleSheet.create({
+  container2: {
+    flexDirection: 'row',
+    padding: 10,
+  },
   screen: {
     flex: 1,
     alignItems: 'center',
@@ -87,6 +103,8 @@ const mapDispatchToProps = (dispatch) => {
     onAgeUp: () => dispatch({type: 'AGE_UP', value: 1}),
     onAgeDown: () => dispatch({type: 'AGE_DOWN', value: 1}),
     onDeleteItem: (id) => dispatch({type: 'DELETE_ITEM', key: id}),
+    updateA: (b) => dispatch({type: 'UPDATE_A', value: b}),
+    updateB: (a) => dispatch({type: 'UPDATE_B', value: a}),
   };
 };
 export default connect(

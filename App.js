@@ -7,22 +7,23 @@
  */
 
 import React, {Component} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-  Button,
-} from 'react-native';
 
-import {Provider, connect} from 'react-redux';
-import {createStore} from 'redux';
-import reducer from './app/store/reducer';
+import {Provider} from 'react-redux';
 import ApplicationComponents from './app/components/ApplicationComponents';
 
-const store = createStore(reducer);
+import {createStore, combineReducers} from 'redux';
+
+import reducer from './app/store/reducer';
+import reducerA from './app/store/reducerA';
+import reducerB from './app/store/reducerB';
+
+const rootReducer = combineReducers({
+  reducer,
+  reducerA,
+  reducerB,
+});
+
+const store = createStore(rootReducer);
 
 class App extends Component {
   constructor(props) {
