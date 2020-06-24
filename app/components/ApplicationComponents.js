@@ -15,6 +15,7 @@ import {
   Text,
   StatusBar,
   Button,
+  TouchableOpacity,
 } from 'react-native';
 
 import {connect} from 'react-redux';
@@ -29,6 +30,7 @@ class ApplicationComponents extends Component {
   }
 
   render() {
+    console.log('this.props', this.props);
     return (
       <View style={styles.screen}>
         <Text>TechSith Redux React Native App</Text>
@@ -37,6 +39,19 @@ class ApplicationComponents extends Component {
           <Button title="Age Up" onPress={this.props.onAgeUp} />
           <Button title="Age Down" onPress={this.props.onAgeDown} />
         </View>
+        <Text>History</Text>
+        {this.props.history.map((item, index) => {
+          return (
+            <TouchableOpacity
+              key={item.id * index}
+              style={styles.historyItem}
+              onPress={() => this.props.onDeleteItem(item.id)}>
+              <View>
+                <Text>{item.value}</Text>
+              </View>
+            </TouchableOpacity>
+          );
+        })}
       </View>
     );
   }
@@ -45,23 +60,33 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    padding: 50,
   },
   buttonContainer: {
     flexDirection: 'row',
   },
+  historyItem: {
+    width: '100%',
+    borderWidth: 1,
+    borderColor: 'red',
+    margin: 10,
+    paddingVertical: 10,
+    backgroundColor: '#f7e8bc70',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 const mapStateToProps = (state) => {
-  return {
-    age: state.age,
-  };
+  return state;
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onAgeUp: () => dispatch({type: 'AGE_UP', value: 1}),
     onAgeDown: () => dispatch({type: 'AGE_DOWN', value: 1}),
+    onDeleteItem: (id) => dispatch({type: 'DELETE_ITEM', key: id}),
   };
 };
 export default connect(
