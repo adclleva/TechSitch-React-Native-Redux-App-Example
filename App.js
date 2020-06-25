@@ -11,7 +11,7 @@ import React, {Component} from 'react';
 import {Provider} from 'react-redux';
 import ApplicationComponents from './app/components/ApplicationComponents';
 
-import {createStore, combineReducers} from 'redux';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
 
 import reducer from './app/store/reducer';
 import reducerA from './app/store/reducerA';
@@ -23,7 +23,21 @@ const rootReducer = combineReducers({
   reducerB,
 });
 
-const store = createStore(rootReducer);
+// this is for the middleware that would catch the action
+// return (next) => {
+//   return (action) => {
+//     const result = next(action);
+//     console.log(`Caught in the middleware ${result}`);
+//   };
+// };
+// this is equivalent to the curried function below
+const logAction = (store) => (next) => (action) => {
+  const result = next(action);
+  console.log(`Caught in the middleware ${JSON.stringify(result)}`);
+  return result;
+};
+
+const store = createStore(rootReducer, applyMiddleware(logAction));
 
 class App extends Component {
   constructor(props) {
