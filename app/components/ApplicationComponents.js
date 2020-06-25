@@ -19,6 +19,7 @@ import {
 } from 'react-native';
 
 import {connect} from 'react-redux';
+import {ageUp, ageDown} from '../store/actions/actions';
 
 class ApplicationComponents extends Component {
   constructor(props) {
@@ -30,7 +31,7 @@ class ApplicationComponents extends Component {
     return (
       <View style={styles.screen}>
         <Text>TechSith Redux React Native App</Text>
-        <Text>Age: {this.props.age}</Text>
+        <Text>Age: {this.props.reducer.age}</Text>
         <View style={styles.buttonContainer}>
           <Button title="Age Up" onPress={this.props.onAgeUp} />
           <Button title="Age Down" onPress={this.props.onAgeDown} />
@@ -41,7 +42,7 @@ class ApplicationComponents extends Component {
             <TouchableOpacity
               key={item.id * index}
               style={styles.historyItem}
-              onPress={() => this.props.reducer.onDeleteItem(item.id)}>
+              onPress={() => this.props.onDeleteItem(item.id)}>
               <View>
                 <Text>{item.value}</Text>
               </View>
@@ -100,8 +101,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAgeUp: () => dispatch({type: 'AGE_UP', value: 1}),
-    onAgeDown: () => dispatch({type: 'AGE_DOWN', value: 1}),
+    onAgeUp: () => dispatch(ageUp(5)),
+    onAgeDown: () => dispatch(ageDown(5)),
     onDeleteItem: (id) => dispatch({type: 'DELETE_ITEM', key: id}),
     updateA: (b) => dispatch({type: 'UPDATE_A', value: b}),
     updateB: (a) => dispatch({type: 'UPDATE_B', value: a}),

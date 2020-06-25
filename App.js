@@ -13,9 +13,9 @@ import ApplicationComponents from './app/components/ApplicationComponents';
 
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 
-import reducer from './app/store/reducer';
-import reducerA from './app/store/reducerA';
-import reducerB from './app/store/reducerB';
+import reducer from './app/store/reducers/reducer';
+import reducerA from './app/store/reducers/reducerA';
+import reducerB from './app/store/reducers/reducerB';
 
 const rootReducer = combineReducers({
   reducer,
