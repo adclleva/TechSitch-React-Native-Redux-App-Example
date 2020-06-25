@@ -12,6 +12,7 @@ import {Provider} from 'react-redux';
 import ApplicationComponents from './app/components/ApplicationComponents';
 
 import {createStore, combineReducers, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
 
 import reducer from './app/store/reducers/reducer';
 import reducerA from './app/store/reducers/reducerA';
@@ -37,7 +38,9 @@ const logAction = (store) => (next) => (action) => {
   return result;
 };
 
-const store = createStore(rootReducer, applyMiddleware(logAction));
+const middleware = [thunk, logAction];
+
+const store = createStore(rootReducer, applyMiddleware(...middleware));
 
 class App extends Component {
   constructor(props) {

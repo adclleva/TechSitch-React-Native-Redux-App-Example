@@ -1,3 +1,5 @@
+import {LOADING} from '../actions/actions';
+
 const initialState = {
   age: 21,
   history: [],
@@ -14,6 +16,7 @@ const reducer = (state = initialState, action) => {
           id: Math.random(),
           value: state.age + action.value,
         }),
+        loading: false,
       };
     case 'AGE_DOWN':
       return {
@@ -28,6 +31,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         history: state.history.filter((item) => item.id !== action.key),
+      };
+    case LOADING:
+      return {
+        ...state,
+        loading: true,
       };
     default:
       return state;

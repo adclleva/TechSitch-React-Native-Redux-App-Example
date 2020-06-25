@@ -16,6 +16,7 @@ import {
   StatusBar,
   Button,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 
 import {connect} from 'react-redux';
@@ -31,6 +32,7 @@ class ApplicationComponents extends Component {
     return (
       <View style={styles.screen}>
         <Text>TechSith Redux React Native App</Text>
+
         <Text>Age: {this.props.reducer.age}</Text>
         <View style={styles.buttonContainer}>
           <Button title="Age Up" onPress={this.props.onAgeUp} />
@@ -65,11 +67,27 @@ class ApplicationComponents extends Component {
             />
           </View>
         </View>
+        {this.props.reducer.loading && (
+          <View style={styles.imageContainer}>
+            <Image
+              style={styles.image}
+              source={require('../assets/dog.jpeg')}
+            />
+          </View>
+        )}
       </View>
     );
   }
 }
 const styles = StyleSheet.create({
+  imageContainer: {
+    width: 100,
+    height: 100,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+  },
   container2: {
     flexDirection: 'row',
     padding: 10,
