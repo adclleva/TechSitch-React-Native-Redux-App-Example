@@ -20,7 +20,12 @@ import {
 } from 'react-native';
 
 import {connect} from 'react-redux';
-import {ageUp, ageDown} from '../store/actions/actions';
+import {
+  ageUp,
+  ageDown,
+  ageUpAsyncSaga,
+  ageDownAsyncSaga,
+} from '../store/actions/actions';
 
 class ApplicationComponents extends Component {
   constructor(props) {
@@ -75,6 +80,11 @@ class ApplicationComponents extends Component {
             />
           </View>
         )}
+        <Text>Age: {this.props.reducerSaga.age}</Text>
+        <View style={styles.buttonContainer}>
+          <Button title="Age Up" onPress={this.props.onAgeUpSaga} />
+          <Button title="Age Down" onPress={this.props.onAgeDownSaga} />
+        </View>
       </View>
     );
   }
@@ -121,6 +131,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onAgeUp: () => dispatch(ageUp(5)),
     onAgeDown: () => dispatch(ageDown(5)),
+    onAgeUpSaga: () => dispatch(ageUpAsyncSaga(5)),
+    onAgeDownSaga: () => dispatch(ageDownAsyncSaga(5)),
     onDeleteItem: (id) => dispatch({type: 'DELETE_ITEM', key: id}),
     updateA: (b) => dispatch({type: 'UPDATE_A', value: b}),
     updateB: (a) => dispatch({type: 'UPDATE_B', value: a}),

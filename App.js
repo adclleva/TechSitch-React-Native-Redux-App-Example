@@ -11,17 +11,22 @@ import React, {Component} from 'react';
 import {Provider} from 'react-redux';
 import ApplicationComponents from './app/components/ApplicationComponents';
 
+import createSagaMiddleware from 'redux-saga';
+
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 
 import reducer from './app/store/reducers/reducer';
 import reducerA from './app/store/reducers/reducerA';
 import reducerB from './app/store/reducers/reducerB';
+import reducerSaga from './app/store/reducers/reducerSaga';
+import {watchAgeUp} from './app/store/sagas/saga';
 
 const rootReducer = combineReducers({
   reducer,
   reducerA,
   reducerB,
+  reducerSaga,
 });
 
 // this is for the middleware that would catch the action
@@ -38,9 +43,13 @@ const logAction = (store) => (next) => (action) => {
   return result;
 };
 
-const middleware = [thunk, logAction];
+const sagaMiddleware = createSagaMiddleware();
+
+const middleware = [thunk, logAction, sagaMiddleware];
 
 const store = createStore(rootReducer, applyMiddleware(...middleware));
+
+sagaMiddleware.run(watchAgeUp); // this will enable the saga
 
 class App extends Component {
   constructor(props) {
